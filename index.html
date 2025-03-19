@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlaticaM  Asistente de Gestión del Estrés</title>
+    <title>PlaticaM - Asistente de Gestión del Estrés</title>
     <style>
         body, html {
             margin: 0;
@@ -46,6 +46,16 @@
             width: 100%;
             height: 100%;
             border: none;
+            display: none;
+        }
+
+        .loading-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #6b7280;
         }
 
         .error-message {
@@ -60,15 +70,6 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             text-align: center;
             color: #ef4444;
-        }
-
-        .loading-message {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: #6b7280;
         }
 
         .retry-button {
@@ -126,33 +127,71 @@
 
         <div class="chat-container">
             <div id="loadingMessage" class="loading-message">
-                Cargando el chat... Por favor espere.
+                Conectando con el asistente... Por favor espere.
             </div>
             <div id="errorMessage" class="error-message">
-                No se pudo cargar el chat. 
+                No se pudo conectar con el asistente.
                 <br>
                 <button onclick="retryLoading()" class="retry-button">Intentar de nuevo</button>
             </div>
             <iframe
                 id="chatFrame"
                 class="chat-frame"
-                src="https://app.abacus.ai/chat_widget/ee5067504"
                 allow="microphone"
                 onload="handleIframeLoad()"
-                onerror="handleIframeError()"
             ></iframe>
         </div>
     </div>
 
     <div class="footer">
-        <p>© 2024 PlaticaM - Todos los derechos reservados</p>
+        <p>© 2025 PlaticaM - Todos los derechos reservados</p>
     </div>
 
     <script>
+        // Lista de URLs alternativas para probar
+        const urls = [
+            'https://abacus.ai/chat_widget/ee5067504',
+            'https://app.abacus.ai/chat_widget/ee5067504',
+            'https://us-west-2.abacus.ai/chat_widget/ee5067504',
+            'https://api.abacus.ai/chat_widget/ee5067504',
+            'https://chat.abacus.ai/widget/ee5067504'
+        ];
+
+        let currentUrlIndex = 0;
+        let loadAttempts = 0;
+        const maxAttempts = 3;
+
+        function tryLoadingUrl() {
+            if (currentUrlIndex >= urls.length || loadAttempts >= maxAttempts) {
+                handleIframeError();
+                return;
+            }
+
+            const iframe = document.getElementById('chatFrame');
+            iframe.src = urls[currentUrlIndex];
+            loadAttempts++;
+        }
+
         function handleIframeLoad() {
-            document.getElementById('loadingMessage').style.display = 'none';
-            document.getElementById('errorMessage').style.display = 'none';
-            document.getElementById('chatFrame').style.display = 'block';
+            const iframe = document.getElementById('chatFrame');
+            
+            // Verificar si el iframe cargó correctamente
+            try {
+                // Intentar acceder al contenido del iframe
+                // Si esto falla, significa que no se cargó correctamente
+                if (iframe.contentWindow && iframe.contentWindow.location.href) {
+                    document.getElementById('loadingMessage').style.display = 'none';
+                    document.getElementById('errorMessage').style.display = 'none';
+                    iframe.style.display = 'block';
+                    return;
+                }
+            } catch (e) {
+                // Si hay un error, intentar la siguiente URL
+                console.log('Error loading URL:', urls[currentUrlIndex]);
+            }
+
+            currentUrlIndex++;
+            tryLoadingUrl();
         }
 
         function handleIframeError() {
@@ -166,17 +205,23 @@
             document.getElementById('errorMessage').style.display = 'none';
             document.getElementById('chatFrame').style.display = 'none';
             
-            const iframe = document.getElementById('chatFrame');
-            iframe.src = iframe.src;
+            // Reiniciar los intentos
+            currentUrlIndex = 0;
+            loadAttempts = 0;
+            tryLoadingUrl();
         }
 
-        // Verificar el estado de carga después de un tiempo
+        // Iniciar la carga
+        tryLoadingUrl();
+
+        // Verificar el estado después de un tiempo
         setTimeout(function() {
             const iframe = document.getElementById('chatFrame');
             if (!iframe.contentWindow || !iframe.contentWindow.document) {
-                handleIframeError();
+                currentUrlIndex++;
+                tryLoadingUrl();
             }
-        }, 10000); // Espera 10 segundos
+        }, 5000);
     </script>
 </body>
 </html>
