@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platicai - Asistente de Gestión del Estrés</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+        }
+
+        .header {
+            background-color: #2563eb;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .chat-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+            height: 700px;
+        }
+
+        .description {
+            text-align: center;
+            margin: 1rem 0 2rem 0;
+            color: #4b5563;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 1rem;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.25rem;
+            }
+
+            .main-container {
+                margin: 1rem auto;
+            }
+
+            .chat-container {
+                height: 600px;
+                border-radius: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Platicai - Asistente de Gestión del Estrés</h1>
+    </div>
+
+    <div class="main-container">
+        <div class="description">
+            <p>Bienvenido a tu asistente virtual especializado en gestión del estrés y bienestar emocional.</p>
+        </div>
+
+        <div class="chat-container">
+            <iframe
+                src="https://app.abacus.ai/chat_widget/ee5067504"
+                width="100%"
+                height="100%"
+                frameborder="0"
+                allow="microphone"
+            ></iframe>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2024 Platicai - Todos los derechos reservados</p>
+    </div>
+</body>
+</html>
