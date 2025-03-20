@@ -3,225 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlaticaM - Asistente de Gestión del Estrés</title>
+    <title>Platicai - Gestión del Estrés</title>
     <style>
-        body, html {
+        :root {
+            --primary-color: #2563eb;
+            --background-color: #f0f2f5;
+            --text-color: #1f2937;
+        }
+
+        body {
             margin: 0;
             padding: 0;
-            height: 100%;
-            width: 100%;
-            font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--background-color);
         }
 
         .header {
-            background-color: #2563eb;
+            background-color: var(--primary-color);
             color: white;
             padding: 1rem;
             text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: 1.5rem;
         }
 
         .main-container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 2rem auto;
-            padding: 0 1rem;
+            padding: 1rem;
         }
 
-        .chat-container {
+        .chat-options {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .chat-option {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            overflow: hidden;
-            height: 700px;
-            position: relative;
-        }
-
-        .chat-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: none;
-        }
-
-        .loading-message {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: #6b7280;
-        }
-
-        .error-message {
-            display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 20px;
+            padding: 1.5rem;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             text-align: center;
-            color: #ef4444;
         }
 
-        .retry-button {
-            margin-top: 10px;
-            padding: 8px 16px;
-            background-color: #2563eb;
+        .button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
             color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-top: 1rem;
         }
 
-        .retry-button:hover {
+        .button:hover {
             background-color: #1d4ed8;
-        }
-
-        .description {
-            text-align: center;
-            margin: 1rem 0 2rem 0;
-            color: #4b5563;
         }
 
         .footer {
             text-align: center;
             padding: 1rem;
-            color: #6b7280;
-            font-size: 0.875rem;
-        }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.25rem;
-            }
-
-            .main-container {
-                margin: 1rem auto;
-            }
-
-            .chat-container {
-                height: 600px;
-                border-radius: 8px;
-            }
+            color: #666;
+            margin-top: 2rem;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>PlaticaM - Asistente de Gestión del Estrés</h1>
+        <h1>Platicai - Asistente de Gestión del Estrés</h1>
     </div>
 
     <div class="main-container">
-        <div class="description">
-            <p>Bienvenido a tu asistente virtual especializado en gestión del estrés y bienestar emocional.</p>
+        <div class="chat-options">
+            <div class="chat-option">
+                <h2>ChatGPT</h2>
+                <p>Accede al asistente a través de ChatGPT</p>
+                <a href="https://chat.openai.com" class="button" target="_blank">Iniciar Chat</a>
+            </div>
+            
+            <div class="chat-option">
+                <h2>Microsoft Copilot</h2>
+                <p>Accede al asistente a través de Copilot</p>
+                <a href="https://copilot.microsoft.com" class="button" target="_blank">Iniciar Chat</a>
+            </div>
         </div>
 
-        <div class="chat-container">
-            <div id="loadingMessage" class="loading-message">
-                Conectando con el asistente... Por favor espere.
-            </div>
-            <div id="errorMessage" class="error-message">
-                No se pudo conectar con el asistente.
-                <br>
-                <button onclick="retryLoading()" class="retry-button">Intentar de nuevo</button>
-            </div>
-            <iframe
-                id="chatFrame"
-                class="chat-frame"
-                allow="microphone"
-                onload="handleIframeLoad()"
-            ></iframe>
+        <div class="chat-option" style="margin-top: 2rem;">
+            <h2>Instrucciones de Uso</h2>
+            <p>1. Elige tu plataforma preferida (ChatGPT o Copilot)</p>
+            <p>2. Copia el siguiente prompt al inicio de tu conversación:</p>
+            <textarea style="width: 100%; height: 100px; margin-top: 1rem; padding: 0.5rem;" readonly>
+Eres Platicai, una asistente virtual especializada en gestión del estrés y bienestar emocional. Debes comunicarte exclusivamente en español, mostrar empatía y mantener un tono profesional pero cercano. Tu primer mensaje debe ser: "¿Cómo te sientes hoy?"
+            </textarea>
         </div>
     </div>
 
     <div class="footer">
-        <p>© 2025 PlaticaM - Todos los derechos reservados</p>
+        <p>Proyecto Educativo - Gestión del Estrés</p>
     </div>
-
-    <script>
-        // Lista de URLs alternativas para probar
-        const urls = [
-            'https://abacus.ai/chat_widget/ee5067504',
-            'https://app.abacus.ai/chat_widget/ee5067504',
-            'https://us-west-2.abacus.ai/chat_widget/ee5067504',
-            'https://api.abacus.ai/chat_widget/ee5067504',
-            'https://chat.abacus.ai/widget/ee5067504'
-        ];
-
-        let currentUrlIndex = 0;
-        let loadAttempts = 0;
-        const maxAttempts = 3;
-
-        function tryLoadingUrl() {
-            if (currentUrlIndex >= urls.length || loadAttempts >= maxAttempts) {
-                handleIframeError();
-                return;
-            }
-
-            const iframe = document.getElementById('chatFrame');
-            iframe.src = urls[currentUrlIndex];
-            loadAttempts++;
-        }
-
-        function handleIframeLoad() {
-            const iframe = document.getElementById('chatFrame');
-            
-            // Verificar si el iframe cargó correctamente
-            try {
-                // Intentar acceder al contenido del iframe
-                // Si esto falla, significa que no se cargó correctamente
-                if (iframe.contentWindow && iframe.contentWindow.location.href) {
-                    document.getElementById('loadingMessage').style.display = 'none';
-                    document.getElementById('errorMessage').style.display = 'none';
-                    iframe.style.display = 'block';
-                    return;
-                }
-            } catch (e) {
-                // Si hay un error, intentar la siguiente URL
-                console.log('Error loading URL:', urls[currentUrlIndex]);
-            }
-
-            currentUrlIndex++;
-            tryLoadingUrl();
-        }
-
-        function handleIframeError() {
-            document.getElementById('loadingMessage').style.display = 'none';
-            document.getElementById('errorMessage').style.display = 'block';
-            document.getElementById('chatFrame').style.display = 'none';
-        }
-
-        function retryLoading() {
-            document.getElementById('loadingMessage').style.display = 'block';
-            document.getElementById('errorMessage').style.display = 'none';
-            document.getElementById('chatFrame').style.display = 'none';
-            
-            // Reiniciar los intentos
-            currentUrlIndex = 0;
-            loadAttempts = 0;
-            tryLoadingUrl();
-        }
-
-        // Iniciar la carga
-        tryLoadingUrl();
-
-        // Verificar el estado después de un tiempo
-        setTimeout(function() {
-            const iframe = document.getElementById('chatFrame');
-            if (!iframe.contentWindow || !iframe.contentWindow.document) {
-                currentUrlIndex++;
-                tryLoadingUrl();
-            }
-        }, 5000);
-    </script>
 </body>
 </html>
