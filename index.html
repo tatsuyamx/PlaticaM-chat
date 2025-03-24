@@ -11,94 +11,16 @@
             --text-color: #1f2937;
         }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--background-color);
-        }
-
-        .header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem;
-            text-align: center;
-        }
-
-        .main-container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 1rem;
-        }
-
-        .chat-options {
-            display: grid;
-            gap: 1rem;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        }
-
-        .chat-option {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            background-color: var(--primary-color);
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            margin-top: 1rem;
-        }
-
-        .button:hover {
-            background-color: #1d4ed8;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 1rem;
-            color: #666;
-            margin-top: 2rem;
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>Platicai - Asistente de Gestión del Estrés</h1>
-    </div>
-
-    <div class="main-container">
-        <div class="chat-options">
-            <div class="chat-option">
-                <h2>ChatGPT</h2>
-                <p>Accede al asistente a través de ChatGPT</p>
-                <a href="https://chat.openai.com" class="button" target="_blank">Iniciar Chat</a>
-            </div>
-            
-            <div class="chat-option">
-                <h2>Microsoft Copilot</h2>
-                <p>Accede al asistente a través de Copilot</p>
-                <a href="https://copilot.microsoft.com" class="button" target="_blank">Iniciar Chat</a>
-            </div>
-        </div>
-
-        <div class="chat-option" style="margin-top: 2rem;">
-            <h2>Instrucciones de Uso</h2>
-            <p>1. Elige tu plataforma preferida (ChatGPT o Copilot)</p>
-            <p>2. Copia el siguiente prompt al inicio de tu conversación:</p>
-            <textarea style="width: 100%; height: 100px; margin-top: 1rem; padding: 0.5rem;" readonly>
-Eres Platicai, una asistente virtual especializada en gestión del estrés y bienestar emocional. Debes comunicarte exclusivamente en español, mostrar empatía y mantener un tono profesional pero cercano. Tu primer mensaje debe ser: "¿Cómo te sientes hoy?"
-            </textarea>
-        </div>
-    </div>
-
-    <div class="footer">
-        <p>Proyecto Educativo - Gestión del Estrés</p>
-    </div>
-</body>
-</html>
+        body <script type="text/javascript">
+  (function(d, t) {
+      var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+      v.onload = function() {
+        window.voiceflow.chat.load({
+          verify: { projectID: '67e0d629b82617879f1f6e70' },
+          url: 'https://general-runtime.voiceflow.com',
+          versionID: 'production'
+        });
+      }
+      v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
+  })(document, 'script');
+</script>
