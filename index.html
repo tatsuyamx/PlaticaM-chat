@@ -1,34 +1,192 @@
 <!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <title>Mi Chat Widget</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlaticaM - Apoyo Emocional</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto 20px auto;
+        }
+        .logo {
+            width: 48px;
+            height: 48px;
+            margin-right: 16px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .header h1 {
+            font-size: 2rem;
+            color: #007bff;
+            margin: 0;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        .chat-container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            border: 1px solid #ddd; 
+            border-radius: 15px; 
+            background: white;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        .chat-messages { 
+            height: 400px; 
+            overflow-y: auto; 
+            padding: 20px; 
+            background: #f8f9fa; 
+        }
+        .message { 
+            margin: 10px 0; 
+            padding: 12px 16px; 
+            border-radius: 18px; 
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        .user { 
+            background: linear-gradient(135deg, #007bff, #0056b3); 
+            color: white; 
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+        .bot { 
+            background: #e9ecef; 
+            color: #333;
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+            border: 1px solid #dee2e6;
+        }
+        .input-container { 
+            display: flex; 
+            padding: 20px; 
+            background: white;
+            border-top: 1px solid #eee;
+        }
+        input { 
+            flex: 1; 
+            padding: 12px 16px; 
+            border: 2px solid #e9ecef; 
+            border-radius: 25px; 
+            outline: none;
+            font-size: 14px;
+        }
+        input:focus {
+            border-color: #007bff;
+        }
+        button { 
+            padding: 12px 24px; 
+            margin-left: 12px; 
+            background: linear-gradient(135deg, #007bff, #0056b3); 
+            color: white; 
+            border: none; 
+            border-radius: 25px; 
+            cursor: pointer; 
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        .typing {
+            display: none;
+            padding: 12px 16px;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
-    <!-- Agrega un elemento contenedor para el chat -->
-    <div id="chat-container"></div>
+    <div class="header">
+        <div class="logo">M</div>
+        <h1>PlaticaM</h1>
+    </div>
+    
+    <div class="chat-container">
+        <div class="chat-messages" id="messages">
+            <div class="message bot">
+                ¡Hola! Soy Eli 😊 Estoy aquí para platicar contigo y apoyarte emocionalmente. ¿Cómo te sientes hoy?
+            </div>
+        </div>
+        <div class="typing" id="typing">Eli está escribiendo...</div>
+        <div class="input-container">
+            <input type="text" id="userInput" placeholder="Escribe tu mensaje aquí..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">Enviar</button>
+        </div>
+    </div>
 
-    <script type="text/javascript">
-        (function(d, t) {
-            var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-            v.onload = function() {
-                window.voiceflow.chat.load({
-                    verify: { projectID: '67e0d629b82617879f1f6e70' },
-                    url: 'https://general-runtime.voiceflow.com',
-                    versionID: 'production',
-                    voice: {
-                        url: "https://runtime-api.voiceflow.com"
+    <script>
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            addMessage(message, 'user');
+            input.value = '';
+            showTyping();
+
+            try {
+                const response = await fetch('https://platicam.onrender.com', { // Cambia por tu URL real de Render
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
                     },
-                    render: {
-                        mode: 'embedded',
-                        target: document.getElementById('chat-container')
-                    }
+                    body: JSON.stringify({ message })
                 });
+
+                const data = await response.json();
+                hideTyping();
+                addMessage(data.response, 'bot');
+            } catch (error) {
+                hideTyping();
+                addMessage('Lo siento, no pude conectarme en este momento. ¿Puedes intentar de nuevo?', 'bot');
             }
-            v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
-            v.type = "text/javascript";
-            s.parentNode.insertBefore(v, s);
-        })(document, 'script');
+        }
+
+        function addMessage(text, sender) {
+            const messages = document.getElementById('messages');
+            const div = document.createElement('div');
+            div.className = `message ${sender}`;
+            div.textContent = text;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function showTyping() {
+            document.getElementById('typing').style.display = 'block';
+        }
+
+        function hideTyping() {
+            document.getElementById('typing').style.display = 'none';
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') sendMessage();
+        }
     </script>
 </body>
 </html>
-
